@@ -10,13 +10,13 @@
   <ion-backdrop visible="false"></ion-backdrop>
 
   <!-- Backdrop with propagation -->
-  <ion-backdrop stopPropagation="false"></ion-backdrop>
+  <ion-backdrop stop-propagation="false"></ion-backdrop>
 
   <!-- Backdrop that sets dynamic properties -->
   <ion-backdrop
     :tappable="enableBackdropDismiss"
     :visible="showBackdrop"
-    :stopPropagation="shouldPropagate">
+    :stop-propagation="shouldPropagate">
   </ion-backdrop>
 </template>
 
@@ -24,7 +24,7 @@
   import { Component, Vue } from 'vue-property-decorator';
 
   @Component()
-  export default class Menu extends Vue {
+  export default class Example extends Vue {
     backdropDismiss = false;
     showBackdrop = false;
     shouldPropagate = false;

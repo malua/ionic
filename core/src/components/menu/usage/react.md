@@ -1,9 +1,8 @@
 ```tsx
 import React from 'react';
-
 import { IonMenu, IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonRouterOutlet } from '@ionic/react';
 
-const Example: React.SFC<{}> = () => (
+export const MenuExample: React.FC = () => (
   <>
     <IonMenu side="start" menuId="first">
       <IonHeader>
@@ -22,7 +21,7 @@ const Example: React.SFC<{}> = () => (
       </IonContent>
     </IonMenu>
 
-    <IonMenu side="start" menuId="custom" class="my-custom-menu">
+    <IonMenu side="start" menuId="custom" className="my-custom-menu">
       <IonHeader>
         <IonToolbar color="tertiary">
           <IonTitle>Custom Menu</IonTitle>
@@ -58,6 +57,4 @@ const Example: React.SFC<{}> = () => (
     <IonRouterOutlet></IonRouterOutlet>
   </>
 );
-
-export default Example;
 ```

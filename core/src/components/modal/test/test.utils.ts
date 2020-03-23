@@ -1,46 +1,50 @@
 import { newE2EPage } from '@stencil/core/testing';
 
-import { cleanScreenshotName, generateE2EUrl } from '../../../utils/test/utils';
+import { generateE2EUrl } from '../../../utils/test/utils';
 
-export async function testModal(
+export const testModal = async (
   type: string,
   selector: string,
-  rtl = false,
-  screenshotName: string = cleanScreenshotName(selector)
-) {
-  try {
-    const pageUrl = generateE2EUrl('modal', type, rtl);
-    if (rtl) {
-      screenshotName = `${screenshotName} rtl`;
-    }
+  rtl = false
+) => {
+  const pageUrl = generateE2EUrl('modal', type, rtl);
 
-    const page = await newE2EPage({
-      url: pageUrl
-    });
+  const page = await newE2EPage({
+    url: pageUrl
+  });
 
-    const screenShotCompares = [];
+  const screenshotCompares = [];
+  const ionModalWillPresent = await page.spyOnEvent('ionModalWillPresent');
+  const ionModalDidPresent = await page.spyOnEvent('ionModalDidPresent');
+  const ionModalWillDismiss = await page.spyOnEvent('ionModalWillDismiss');
+  const ionModalDidDismiss = await page.spyOnEvent('ionModalDidDismiss');
 
-    await page.click(selector);
-    await page.waitForSelector(selector);
+  await page.click(selector);
 
-    let popover = await page.find('ion-modal');
-    await popover.waitForVisible();
+  await ionModalWillPresent.next();
+  await ionModalDidPresent.next();
 
-    screenShotCompares.push(await page.compareScreenshot(screenshotName));
+  await page.waitForSelector(selector);
 
-    await popover.callMethod('dismiss');
-    await popover.waitForNotVisible();
+  let modal = await page.find('ion-modal');
+  await modal.waitForVisible();
+  await page.waitFor(100);
 
-    screenShotCompares.push(await page.compareScreenshot(`dismiss ${screenshotName}`));
+  screenshotCompares.push(await page.compareScreenshot());
 
-    popover = await page.find('ion-modal');
-    expect(popover).toBeNull();
+  await modal.callMethod('dismiss');
 
-    for (const screenShotCompare of screenShotCompares) {
-      expect(screenShotCompare).toMatchScreenshot();
-    }
+  await ionModalWillDismiss.next();
+  await ionModalDidDismiss.next();
 
-  } catch (err) {
-    throw err;
+  await modal.waitForNotVisible();
+
+  screenshotCompares.push(await page.compareScreenshot('dismiss'));
+
+  modal = await page.find('ion-modal');
+  expect(modal).toBeNull();
+
+  for (const screenshotCompare of screenshotCompares) {
+    expect(screenshotCompare).toMatchScreenshot();
   }
-}
+};

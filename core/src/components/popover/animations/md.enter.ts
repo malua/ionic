@@ -1,9 +1,11 @@
 import { Animation } from '../../../interface';
+import { createAnimation } from '../../../utils/animation/animation';
 
 /**
  * Md Popover Enter Animation
  */
-export function mdEnterAnimation(AnimationC: Animation, baseEl: HTMLElement, ev?: Event): Promise<Animation> {
+export const mdEnterAnimation = (baseEl: HTMLElement, ev?: Event): Animation => {
+  const POPOVER_MD_BODY_PADDING = 12;
   const doc = (baseEl.ownerDocument as any);
   const isRTL = doc.dir === 'rtl';
 
@@ -47,12 +49,19 @@ export function mdEnterAnimation(AnimationC: Animation, baseEl: HTMLElement, ev?
   // exceeds the body width it is off screen to the right so adjust
   if (popoverCSS.left < POPOVER_MD_BODY_PADDING) {
     popoverCSS.left = POPOVER_MD_BODY_PADDING;
+
+    // Same origin in this case for both LTR & RTL
+    // Note: in LTR, originX is already 'left'
+    originX = 'left';
   } else if (
     contentWidth + POPOVER_MD_BODY_PADDING + popoverCSS.left >
     bodyWidth
   ) {
     popoverCSS.left = bodyWidth - contentWidth - POPOVER_MD_BODY_PADDING;
-    originX = isRTL ? 'left' : 'right';
+
+    // Same origin in this case for both LTR & RTL
+    // Note: in RTL, originX is already 'right'
+    originX = 'right';
   }
 
   // If the popover when popped down stretches past bottom of screen,
@@ -69,35 +78,40 @@ export function mdEnterAnimation(AnimationC: Animation, baseEl: HTMLElement, ev?
     contentEl.style.bottom = POPOVER_MD_BODY_PADDING + 'px';
   }
 
-  contentEl.style.top = popoverCSS.top + 'px';
-  contentEl.style.left = popoverCSS.left + 'px';
-  contentEl.style.transformOrigin = originY + ' ' + originX;
+  const baseAnimation = createAnimation();
+  const backdropAnimation = createAnimation();
+  const wrapperAnimation = createAnimation();
+  const contentAnimation = createAnimation();
+  const viewportAnimation = createAnimation();
 
-  const baseAnimation = new AnimationC();
+  backdropAnimation
+    .addElement(baseEl.querySelector('ion-backdrop')!)
+    .fromTo('opacity', 0.01, 'var(--backdrop-opacity)')
+    .beforeStyles({
+      'pointer-events': 'none'
+    })
+    .afterClearStyles(['pointer-events']);
 
-  const backdropAnimation = new AnimationC();
-  backdropAnimation.addElement(baseEl.querySelector('ion-backdrop'));
-  backdropAnimation.fromTo('opacity', 0.01, 0.32);
+  wrapperAnimation
+    .addElement(baseEl.querySelector('.popover-wrapper')!)
+    .fromTo('opacity', 0.01, 1);
 
-  const wrapperAnimation = new AnimationC();
-  wrapperAnimation.addElement(baseEl.querySelector('.popover-wrapper'));
-  wrapperAnimation.fromTo('opacity', 0.01, 1);
+  contentAnimation
+    .addElement(contentEl)
+    .beforeStyles({
+      'top': `${popoverCSS.top}px`,
+      'left': `${popoverCSS.left}px`,
+      'transform-origin': `${originY} ${originX}`
+    })
+    .fromTo('transform', 'scale(0.001)', 'scale(1)');
 
-  const contentAnimation = new AnimationC();
-  contentAnimation.addElement(baseEl.querySelector('.popover-content'));
-  contentAnimation.fromTo('scale', 0.001, 1);
+  viewportAnimation
+    .addElement(baseEl.querySelector('.popover-viewport')!)
+    .fromTo('opacity', 0.01, 1);
 
-  const viewportAnimation = new AnimationC();
-  viewportAnimation.addElement(baseEl.querySelector('.popover-viewport'));
-  viewportAnimation.fromTo('opacity', 0.01, 1);
-
-  return Promise.resolve(baseAnimation
+  return baseAnimation
     .addElement(baseEl)
     .easing('cubic-bezier(0.36,0.66,0.04,1)')
     .duration(300)
-    .add(backdropAnimation)
-    .add(wrapperAnimation)
-    .add(contentAnimation)
-    .add(viewportAnimation));
-}
-const POPOVER_MD_BODY_PADDING = 12;
+    .addAnimation([backdropAnimation, wrapperAnimation, contentAnimation, viewportAnimation]);
+};

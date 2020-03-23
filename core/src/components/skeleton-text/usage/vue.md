@@ -7,7 +7,11 @@
     </div>
 
     <ion-list>
-      <ion-list-header>Data</ion-list-header>
+      <ion-list-header>
+        <ion-label>
+          Data
+        </ion-label>
+      </ion-list-header>
       <ion-item>
         <ion-avatar slot="start">
           <img src="./avatar.svg">
@@ -69,7 +73,9 @@
 
     <ion-list>
       <ion-list-header>
-        <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
+        <ion-label>
+          <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
+        </ion-label>
       </ion-list-header>
       <ion-item>
         <ion-avatar slot="start">
@@ -136,7 +142,7 @@
   import { Component, Vue } from 'vue-property-decorator';
 
   @Component()
-  export default class SkeletonTextExample extends Vue {
+  export default class Example extends Vue {
     data: any;
 
     mounted() {

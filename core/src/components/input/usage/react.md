@@ -1,52 +1,70 @@
 ```tsx
-import React from 'react';
+import React, { useState } from 'react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonList, IonItemDivider } from '@ionic/react';
 
-import { IonInput, IonItem, IonLabel } from '@ionic/react';
+export const InputExamples: React.FC = () => {
 
-const Example: React.SFC<{}> = () => (
-  <>
-    {/*-- Default Input --*/}
-    <IonInput></IonInput>
+  const [text, setText] = useState<string>();
+  const [number, setNumber] = useState<number>();
 
-    {/*-- Input with value --*/}
-    <IonInput value="custom"></IonInput>
+  return (
+    <IonPage>
+      <IonHeader>
+        <IonToolbar>
+          <IonTitle>IonInput Examples</IonTitle>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent>
+        <IonList>
+          <IonItemDivider>Default Input with Placeholder</IonItemDivider>
+          <IonItem>
+            <IonInput value={text} placeholder="Enter Input" onIonChange={e => setText(e.detail.value!)}></IonInput>
+          </IonItem>
 
-    {/*-- Input with placeholder --*/}
-    <IonInput placeholder="Enter Input"></IonInput>
+          <IonItemDivider>Input with clear button when there is a value</IonItemDivider>
+          <IonItem>
+            <IonInput value={text} placeholder="Enter Input" onIonChange={e => setText(e.detail.value!)} clearInput></IonInput>
+          </IonItem>
 
-    {/*-- Input with clear button when there is a value --*/}
-    <IonInput clearInput value="clear me"></IonInput>
+          <IonItemDivider>Number type input</IonItemDivider>
+          <IonItem>
+            <IonInput type="number" value={number} placeholder="Enter Number" onIonChange={e => setNumber(parseInt(e.detail.value!, 10))}></IonInput>
+          </IonItem>
 
-    {/*-- Number type input --*/}
-    <IonInput type="number" value="333"></IonInput>
+          <IonItemDivider>Disabled input</IonItemDivider>
+          <IonItem>
+            <IonInput value={text} disabled></IonInput>
+          </IonItem>
 
-    {/*-- Disabled input --*/}
-    <IonInput value="Disabled" disabled></IonInput>
+          <IonItemDivider>Readonly input</IonItemDivider>
+          <IonItem>
+            <IonInput value={text} readonly></IonInput>
+          </IonItem>
 
-    {/*-- Readonly input --*/}
-    <IonInput value="Readonly" readonly></IonInput>
+          <IonItemDivider>Inputs with labels</IonItemDivider>
 
-    {/*-- Inputs with labels --*/}
-    <IonItem>
-      <IonLabel>Default Label</IonLabel>
-      <IonInput></IonInput>
-    </IonItem>
+          <IonItem>
+            <IonLabel>Default Label</IonLabel>
+            <IonInput></IonInput>
+          </IonItem>
 
-    <IonItem>
-      <IonLabel position="floating">Floating Label</IonLabel>
-      <IonInput></IonInput>
-    </IonItem>
+          <IonItem>
+            <IonLabel position="floating">Floating Label</IonLabel>
+            <IonInput value={text}></IonInput>
+          </IonItem>
 
-    <IonItem>
-      <IonLabel position="fixed">Fixed Label</IonLabel>
-      <IonInput></IonInput>
-    </IonItem>
+          <IonItem>
+            <IonLabel position="fixed">Fixed Label</IonLabel>
+            <IonInput value={text}></IonInput>
+          </IonItem>
 
-    <IonItem>
-      <IonLabel position="stacked">Stacked Label</IonLabel>
-      <IonInput></IonInput>
-    </IonItem>
-  </>
-);
-
-export default Example
+          <IonItem>
+            <IonLabel position="stacked">Stacked Label</IonLabel>
+            <IonInput value={text}> </IonInput>
+          </IonItem>
+        </IonList>
+      </IonContent>
+    </IonPage>
+  );
+};
+```

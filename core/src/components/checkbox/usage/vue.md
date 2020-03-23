@@ -20,7 +20,11 @@
   <ion-list>
     <ion-item v-for="entry in form">
       <ion-label>{{entry.val}}</ion-label>
-      <ion-checkbox slot="end" v-on:input="entry.checked = $event.target.value" v-bind:value="entry.isChecked"></ion-checkbox>
+      <ion-checkbox
+        slot="end"
+        @input="entry.checked = $event.target.value"
+        :value="entry.isChecked">
+      </ion-checkbox>
     </ion-item>
   </ion-list>
 </template>
@@ -29,7 +33,7 @@
   import { Component, Vue } from 'vue-property-decorator';
 
   @Component()
-  export default class Menu extends Vue {
+  export default class Example extends Vue {
     form = [
       { val: 'Pepperoni', isChecked: true },
       { val: 'Sausage', isChecked: false },

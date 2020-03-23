@@ -57,55 +57,64 @@ Chips represent complex entities in small blocks, such as a contact. A chip can 
 
 ```tsx
 import React from 'react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonChip, IonLabel, IonIcon, IonAvatar } from '@ionic/react';
+import { pin, heart, closeCircle, close } from 'ionicons/icons';
 
-import { IonChip, IonLabel, IonIcon, IonAvatar } from '@ionic/react';
+export const ChipExamples: React.FC = () => {
+  return (
+    <IonPage>
+      <IonHeader>
+        <IonToolbar>
+          <IonTitle>ChipExamples</IonTitle>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent>
+        <IonChip>
+          <IonLabel>Default</IonLabel>
+        </IonChip>
 
-const ChipExample: React.SFC<{}> = () => (
-  <>
-    <IonChip>
-      <IonLabel>Default</IonLabel>
-    </IonChip>
+        <IonChip>
+          <IonLabel color="secondary">Secondary Label</IonLabel>
+        </IonChip>
 
-    <IonChip>
-      <IonLabel color="secondary">Secondary Label</IonLabel>
-    </IonChip>
+        <IonChip color="secondary">
+          <IonLabel color="dark">Secondary w/ Dark label</IonLabel>
+        </IonChip>
 
-    <IonChip color="secondary">
-      <IonLabel color="dark">Secondary w/ Dark label</IonLabel>
-    </IonChip>
+        <IonChip>
+          <IonIcon icon={pin} />
+          <IonLabel>Default</IonLabel>
+        </IonChip>
 
-    <IonChip>
-      <IonIcon name="pin" />
-      <IonLabel>Default</IonLabel>
-    </IonChip>
+        <IonChip>
+          <IonIcon icon={heart} color="dark" />
+          <IonLabel>Default</IonLabel>
+        </IonChip>
 
-    <IonChip>
-      <IonIcon name="heart" color="dark" />
-      <IonLabel>Default</IonLabel>
-    </IonChip>
+        <IonChip>
+          <IonLabel>Button Chip</IonLabel>
+          <IonIcon icon={closeCircle} />
+        </IonChip>
 
-    <IonChip>
-      <IonLabel>Button Chip</IonLabel>
-      <IonIcon name="close-circle" />
-    </IonChip>
+        <IonChip>
+          <IonIcon icon={pin} color="primary" />
+          <IonLabel>Icon Chip</IonLabel>
+          <IonIcon icon={close} />
+        </IonChip>
 
-    <IonChip>
-      <IonIcon name="pin" color="primary" />
-      <IonLabel>Icon Chip</IonLabel>
-      <IonIcon name="close" />
-    </IonChip>
+        <IonChip>
+          <IonAvatar>
+            <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y" />
+          </IonAvatar>
+          <IonLabel>Avatar Chip</IonLabel>
+          <IonIcon icon={closeCircle} />
+        </IonChip>
+      </IonContent>
+    </IonPage>
+  );
+};
 
-    <IonChip>
-      <IonAvatar>
-        <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y" />
-      </IonAvatar>
-      <IonLabel>Avatar Chip</IonLabel>
-      <IonIcon name="close-circle" />
-    </IonChip>
-  </>
-);
-
-export default ChipExample;
+```
 
 
 ### Vue
@@ -173,6 +182,19 @@ export default ChipExample;
 | `--background` | Background of the chip |
 | `--color`      | Color of the chip      |
 
+
+## Dependencies
+
+### Depends on
+
+- [ion-ripple-effect](../ripple-effect)
+
+### Graph
+```mermaid
+graph TD;
+  ion-chip --> ion-ripple-effect
+  style ion-chip fill:#f9f,stroke:#333,stroke-width:4px
+```
 
 ----------------------------------------------
 

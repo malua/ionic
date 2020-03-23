@@ -32,15 +32,19 @@ left or right of the range.
     </ion-range>
   </ion-item>
 
- <ion-item>
-   <ion-range min="20" max="80" step="2">
-     <ion-icon size="small" slot="start" name="sunny"></ion-icon>
-     <ion-icon slot="end" name="sunny"></ion-icon>
-   </ion-range>
- </ion-item>
+  <ion-item>
+    <ion-range min="20" max="80" step="2">
+      <ion-icon size="small" slot="start" name="sunny"></ion-icon>
+      <ion-icon slot="end" name="sunny"></ion-icon>
+    </ion-range>
+  </ion-item>
 
   <ion-item>
     <ion-range min="1000" max="2000" step="100" snaps="true" color="secondary"></ion-range>
+  </ion-item>
+
+  <ion-item>
+    <ion-range min="1000" max="2000" step="100" snaps="true" ticks="false" color="secondary"></ion-range>
   </ion-item>
 
   <ion-item>
@@ -65,15 +69,19 @@ left or right of the range.
     </ion-range>
   </ion-item>
 
- <ion-item>
-   <ion-range min="20" max="80" step="2">
-     <ion-icon size="small" slot="start" name="sunny"></ion-icon>
-     <ion-icon slot="end" name="sunny"></ion-icon>
-   </ion-range>
- </ion-item>
+  <ion-item>
+    <ion-range min="20" max="80" step="2">
+      <ion-icon size="small" slot="start" name="sunny"></ion-icon>
+      <ion-icon slot="end" name="sunny"></ion-icon>
+    </ion-range>
+  </ion-item>
 
   <ion-item>
     <ion-range min="1000" max="2000" step="100" snaps="true" color="secondary"></ion-range>
+  </ion-item>
+
+  <ion-item>
+    <ion-range min="1000" max="2000" step="100" snaps="true" ticks="false" color="secondary"></ion-range>
   </ion-item>
 
   <ion-item>
@@ -86,42 +94,74 @@ left or right of the range.
 ### React
 
 ```tsx
-import React from 'react';
+import React, { useState } from 'react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonItem, IonRange, IonLabel, IonIcon, IonItemDivider } from '@ionic/react';
+import { sunny } from 'ionicons/icons';
+import { RangeValue } from '@ionic/core';
 
-import { IonList, IonItem, IonRange, IonLabel, IonIcon } from '@ionic/react';
+export const RangeExamples: React.FC = () => {
 
-const Example: React.SFC<{}> = () => (
+  const [value, setValue] = useState(0);
+  const [rangeValue, setRangeValue] = useState<{
+    lower: number;
+    upper: number;
+  }>({ lower: 0, upper: 0 });
 
-  <IonList>
-    <IonItem>
-      <IonRange color="danger" pin={true}></IonRange>
-    </IonItem>
+  return (
+    <IonPage>
+      <IonHeader>
+        <IonToolbar>
+          <IonTitle>IonRange Examples</IonTitle>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent>
+        <IonList>
+          <IonItemDivider>Default</IonItemDivider>
+          <IonItem>
+            <IonRange pin={true} value={value} onIonChange={e => setValue(e.detail.value as number)} />
+          </IonItem>
+          <IonItem>
+            <IonLabel>Value: {value}</IonLabel>
+          </IonItem>
 
-    <IonItem>
-      <IonRange min={-200} max={200} color="secondary">
-        <IonLabel slot="start">-200</IonLabel>
-        <IonLabel slot="end">200</IonLabel>
-      </IonRange>
-    </IonItem>
+          <IonItemDivider>Min & Max</IonItemDivider>
+          <IonItem>
+            <IonRange min={-200} max={200} color="secondary">
+              <IonLabel slot="start">-200</IonLabel>
+              <IonLabel slot="end">200</IonLabel>
+            </IonRange>
+          </IonItem>
 
-   <IonItem>
-     <IonRange min={20} max={80} step={2}>
-       <IonIcon size="small" slot="start" name="sunny" />
-       <IonIcon slot="end" name="sunny" />
-     </IonRange>
-   </IonItem>
+          <IonItemDivider>Icons</IonItemDivider>
+          <IonItem>
+            <IonRange min={20} max={80} step={2}>
+              <IonIcon size="small" slot="start" icon={sunny} />
+              <IonIcon slot="end" icon={sunny} />
+            </IonRange>
+          </IonItem>
 
-    <IonItem>
-      <IonRange min={1000} max={2000} step={100} snaps={true} color="secondary"></IonRange>
-    </IonItem>
+          <IonItemDivider>With Snaps & Ticks</IonItemDivider>
+          <IonItem>
+            <IonRange min={1000} max={2000} step={100} snaps={true} color="secondary" />
+          </IonItem>
 
-    <IonItem>
-      <IonRange dualKnobs={true} min={21} max={72} step={3} snaps={true}></IonRange>
-    </IonItem>
-  </IonList>
-);
+          <IonItemDivider>With Snaps & No Ticks</IonItemDivider>
+          <IonItem>
+            <IonRange min={1000} max={2000} step={100} snaps={true} ticks={false} color="secondary" />
+          </IonItem>
 
-export default Example;
+          <IonItemDivider>Dual Knobs</IonItemDivider>
+          <IonItem>
+            <IonRange dualKnobs={true} min={0} max={60} step={3} snaps={true} onIonChange={e => setRangeValue(e.detail.value as any)} />
+          </IonItem>
+          <IonItem>
+            <IonLabel>Value: lower: {rangeValue.lower} upper: {rangeValue.upper}</IonLabel>
+          </IonItem>
+        </IonList>
+      </IonContent>
+    </IonPage>
+  );
+};
 ```
 
 
@@ -141,22 +181,35 @@ export default Example;
       </ion-range>
     </ion-item>
 
-  <ion-item>
-    <ion-range min="20" max="80" step="2">
-      <ion-icon size="small" slot="start" name="sunny"></ion-icon>
-      <ion-icon slot="end" name="sunny"></ion-icon>
-    </ion-range>
-  </ion-item>
+    <ion-item>
+      <ion-range min="20" max="80" step="2">
+        <ion-icon size="small" slot="start" name="sunny"></ion-icon>
+        <ion-icon slot="end" name="sunny"></ion-icon>
+      </ion-range>
+    </ion-item>
 
     <ion-item>
       <ion-range min="1000" max="2000" step="100" snaps="true" color="secondary"></ion-range>
     </ion-item>
 
     <ion-item>
-      <ion-range dualKnobs="true" min="21" max="72" step="3" snaps="true"></ion-range>
+      <ion-range min="1000" max="2000" step="100" snaps="true" ticks="false" color="secondary"></ion-range>
+    </ion-item>
+
+    <ion-item>
+      <ion-range ref="rangeDualKnobs" dual-knobs="true" min="21" max="72" step="3" snaps="true"></ion-range>
     </ion-item>
   </ion-list>
 </template>
+
+<script>
+export default {
+  mounted() {
+    // Sets initial value for dual-knob ion-range
+    this.$refs.rangeDualKnobs.value = { lower: 24, upper: 42 };
+  }
+}
+</script>
 ```
 
 
@@ -176,6 +229,7 @@ export default Example;
 | `pin`       | `pin`        | If `true`, a pin with integer value is shown when the knob is pressed.                                                                                                                                                                                                 | `boolean`                                     | `false`     |
 | `snaps`     | `snaps`      | If `true`, the knob snaps to tick marks evenly spaced based on the step property value.                                                                                                                                                                                | `boolean`                                     | `false`     |
 | `step`      | `step`       | Specifies the value granularity.                                                                                                                                                                                                                                       | `number`                                      | `1`         |
+| `ticks`     | `ticks`      | If `true`, tick marks are displayed based on the step value. Only applies when `snaps` is `true`.                                                                                                                                                                      | `boolean`                                     | `true`      |
 | `value`     | `value`      | the value of the range.                                                                                                                                                                                                                                                | `number \| { lower: number; upper: number; }` | `0`         |
 
 
@@ -209,6 +263,8 @@ export default Example;
 | `--knob-border-radius`    | Border radius of the range knob    |
 | `--knob-box-shadow`       | Box shadow of the range knob       |
 | `--knob-size`             | Size of the range knob             |
+| `--pin-background`        | Background of the range pin        |
+| `--pin-color`             | Color of the range pin             |
 
 
 ----------------------------------------------

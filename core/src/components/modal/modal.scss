@@ -20,6 +20,7 @@
    * @prop --height: Height of the modal
    * @prop --max-height: Maximum height of the modal
    *
+   * @prop --backdrop-opacity: Opacity of the backdrop
    */
   --width: 100%;
   --min-width: auto;
@@ -34,6 +35,7 @@
   --border-color: transparent;
   --background: #{$background-color};
   --box-shadow: none;
+  --backdrop-opacity: 0;
 
   @include position(0, 0, 0, 0);
 

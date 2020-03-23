@@ -16,7 +16,7 @@ These can be controlled from the templates, or programmatically using the MenuCo
 ### Angular
 
 ```html
-<ion-menu side="start" menuId="first">
+<ion-menu side="start" menuId="first" contentId="main">
   <ion-header>
     <ion-toolbar color="primary">
       <ion-title>Start Menu</ion-title>
@@ -33,7 +33,7 @@ These can be controlled from the templates, or programmatically using the MenuCo
   </ion-content>
 </ion-menu>
 
-<ion-menu side="start" menuId="custom" class="my-custom-menu">
+<ion-menu side="start" menuId="custom" contentId="main" class="my-custom-menu">
   <ion-header>
     <ion-toolbar color="tertiary">
       <ion-title>Custom Menu</ion-title>
@@ -50,7 +50,7 @@ These can be controlled from the templates, or programmatically using the MenuCo
   </ion-content>
 </ion-menu>
 
-<ion-menu side="end" type="push">
+<ion-menu side="end" type="push" contentId="main">
   <ion-header>
     <ion-toolbar color="danger">
       <ion-title>End Menu</ion-title>
@@ -67,7 +67,7 @@ These can be controlled from the templates, or programmatically using the MenuCo
   </ion-content>
 </ion-menu>
 
-<ion-router-outlet main></ion-router-outlet>
+<ion-router-outlet id="main"></ion-router-outlet>
 ```
 
 ```typescript
@@ -110,7 +110,7 @@ constructor(private menu: MenuController) { }
 
 ```html
 <ion-app>
-  <ion-menu side="start" menu-id="first">
+  <ion-menu side="start" menu-id="first" content-id="main">
     <ion-header>
       <ion-toolbar color="primary">
         <ion-title>Start Menu</ion-title>
@@ -127,7 +127,7 @@ constructor(private menu: MenuController) { }
     </ion-content>
   </ion-menu>
 
-  <ion-menu side="start" menu-id="custom" class="my-custom-menu">
+  <ion-menu side="start" menu-id="custom" class="my-custom-menu" content-id="main">
     <ion-header>
       <ion-toolbar color="tertiary">
         <ion-title>Custom Menu</ion-title>
@@ -144,7 +144,7 @@ constructor(private menu: MenuController) { }
     </ion-content>
   </ion-menu>
 
-  <ion-menu side="end" type="push">
+  <ion-menu side="end" type="push" content-id="main">
     <ion-header>
       <ion-toolbar color="danger">
         <ion-title>End Menu</ion-title>
@@ -161,13 +161,13 @@ constructor(private menu: MenuController) { }
     </ion-content>
   </ion-menu>
 
-  <div class="ion-page" main>
+  <div class="ion-page" id="main">
     <ion-header>
       <ion-toolbar>
         <ion-title>Menu - Basic</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content padding>
+    <ion-content class="ion-padding">
       <ion-button expand="block" onclick="openFirst()">Open Start Menu</ion-button>
       <ion-button expand="block" onclick="openEnd()">Open End Menu</ion-button>
       <ion-button expand="block" onclick="openCustom()">Open Custom Menu</ion-button>
@@ -175,25 +175,29 @@ constructor(private menu: MenuController) { }
   </div>
 
 </ion-app>
-<ion-menu-controller></ion-menu-controller>
 ```
 
 ```javascript
-const menuCtrl = document.querySelector('ion-menu-controller');
-
-function openFirst() {
-  menuCtrl.enable(true, 'first');
-  menuCtrl.open('first');
-}
-
-function openEnd() {
-  menuCtrl.open('end');
-}
-
-function openCustom() {
-  menuCtrl.enable(true, 'custom');
-  menuCtrl.open('custom');
-}
+<script type="module">
+    import { menuController } from '@ionic/core';
+    window.menuController = menuController;
+</script>
+  
+<script>
+  function openFirst() {
+    menuController.enable(true, 'first');
+    menuController.open('first');
+  }
+  
+  function openEnd() {
+    menuController.open('end');
+  }
+  
+  function openCustom() {
+    menuController.enable(true, 'custom');
+    menuController.open('custom');
+  }
+</script>
 ```
 
 ```css
@@ -207,10 +211,9 @@ function openCustom() {
 
 ```tsx
 import React from 'react';
-
 import { IonMenu, IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonRouterOutlet } from '@ionic/react';
 
-const Example: React.SFC<{}> = () => (
+export const MenuExample: React.FC = () => (
   <>
     <IonMenu side="start" menuId="first">
       <IonHeader>
@@ -229,7 +232,7 @@ const Example: React.SFC<{}> = () => (
       </IonContent>
     </IonMenu>
 
-    <IonMenu side="start" menuId="custom" class="my-custom-menu">
+    <IonMenu side="start" menuId="custom" className="my-custom-menu">
       <IonHeader>
         <IonToolbar color="tertiary">
           <IonTitle>Custom Menu</IonTitle>
@@ -265,8 +268,6 @@ const Example: React.SFC<{}> = () => (
     <IonRouterOutlet></IonRouterOutlet>
   </>
 );
-
-export default Example;
 ```
 
 
@@ -274,7 +275,7 @@ export default Example;
 
 ```html
 <template>
-  <ion-menu side="start" menuId="first">
+  <ion-menu side="start" menu-id="first" content-id="main">
     <ion-header>
       <ion-toolbar color="primary">
         <ion-title>Start Menu</ion-title>
@@ -291,7 +292,7 @@ export default Example;
     </ion-content>
   </ion-menu>
 
-  <ion-menu side="start" menuId="custom" class="my-custom-menu">
+  <ion-menu side="start" menu-id="custom" class="my-custom-menu" content-id="main">
     <ion-header>
       <ion-toolbar color="tertiary">
         <ion-title>Custom Menu</ion-title>
@@ -308,7 +309,7 @@ export default Example;
     </ion-content>
   </ion-menu>
 
-  <ion-menu side="end" type="push">
+  <ion-menu side="end" type="push" content-id="main">
     <ion-header>
       <ion-toolbar color="danger">
         <ion-title>End Menu</ion-title>
@@ -337,7 +338,7 @@ export default Example;
   import { Component, Vue } from 'vue-property-decorator';
 
   @Component()
-  export default class MenuExample extends Vue {
+  export default class Example extends Vue {
 
     openFirst() {
       this.menu.enable(true, 'first');
@@ -388,12 +389,6 @@ export default Example;
 Closes the menu. If the menu is already closed or it can't be closed,
 it returns `false`.
 
-#### Parameters
-
-| Name       | Type      | Description |
-| ---------- | --------- | ----------- |
-| `animated` | `boolean` |             |
-
 #### Returns
 
 Type: `Promise<boolean>`
@@ -428,12 +423,6 @@ Type: `Promise<boolean>`
 Opens the menu. If the menu is already open or it can't be opened,
 it returns `false`.
 
-#### Parameters
-
-| Name       | Type      | Description |
-| ---------- | --------- | ----------- |
-| `animated` | `boolean` |             |
-
 #### Returns
 
 Type: `Promise<boolean>`
@@ -445,13 +434,6 @@ Type: `Promise<boolean>`
 Opens or closes the button.
 If the operation can't be completed successfully, it returns `false`.
 
-#### Parameters
-
-| Name         | Type      | Description |
-| ------------ | --------- | ----------- |
-| `shouldOpen` | `boolean` |             |
-| `animated`   | `boolean` |             |
-
 #### Returns
 
 Type: `Promise<boolean>`
@@ -462,12 +444,6 @@ Type: `Promise<boolean>`
 
 Toggles the menu. If the menu is already open, it will try to close, otherwise it will try to open it.
 If the operation can't be completed successfully, it returns `false`.
-
-#### Parameters
-
-| Name       | Type      | Description |
-| ---------- | --------- | ----------- |
-| `animated` | `boolean` |             |
 
 #### Returns
 
@@ -488,6 +464,19 @@ Type: `Promise<boolean>`
 | `--min-width`  | Minimum width of the menu  |
 | `--width`      | Width of the menu          |
 
+
+## Dependencies
+
+### Depends on
+
+- [ion-backdrop](../backdrop)
+
+### Graph
+```mermaid
+graph TD;
+  ion-menu --> ion-backdrop
+  style ion-menu fill:#f9f,stroke:#333,stroke-width:4px
+```
 
 ----------------------------------------------
 

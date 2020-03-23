@@ -19,10 +19,12 @@
    * @prop --transition: Transition of the checkbox icon
    *
    * @prop --checkmark-color: Color of the checkbox checkmark when checked
+   * @prop --checkmark-width: Stroke width of the checkbox checkmark
    */
   --background-checked: #{ion-color(primary, base)};
   --border-color-checked: #{ion-color(primary, base)};
   --checkmark-color: #{ion-color(primary, contrast)};
+  --checkmark-width: 1;
   --transition: none;
 
   display: inline-block;
@@ -59,14 +61,13 @@ button {
 
   background: var(--background);
 
-  contain: strict;
   box-sizing: border-box;
 }
 
 .checkbox-icon path {
   fill: none;
   stroke: var(--checkmark-color);
-  stroke-width: 1;
+  stroke-width: var(--checkmark-width);
 
   opacity: 0;
 }

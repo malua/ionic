@@ -98,51 +98,63 @@ The textarea component accepts the [native textarea attributes](https://develope
 ### React
 
 ```tsx
-import React from 'react';
+import React, { useState } from 'react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonTextarea, IonItem, IonLabel, IonItemDivider, IonList } from '@ionic/react';
 
-import { IonTextarea, IonItem, IonLabel } from '@ionic/react';
+export const TextAreaExamples: React.FC = () => {
+  const [text, setText] = useState<string>();
 
-const Example: React.SFC<{}> = () => (
-  <>
-    {/*-- Default textarea --*/}
-    <IonTextarea></IonTextarea>
+  return (
+    <IonPage>
+      <IonHeader>
+        <IonToolbar>
+          <IonTitle>TextArea Examples</IonTitle>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent>
+        <IonList>
+          <IonItemDivider>Default textarea</IonItemDivider>          
+          <IonItem>
+            <IonTextarea value={text} onIonChange={e => setText(e.detail.value!)}></IonTextarea>
+          </IonItem>
 
-    {/*-- Textarea in an item with a placeholder --*/}
-    <IonItem>
-      <IonTextarea placeholder="Enter more information here..."></IonTextarea>
-    </IonItem>
+          <IonItemDivider>Textarea in an item with a placeholder</IonItemDivider>
+          <IonItem>
+            <IonTextarea placeholder="Enter more information here..." value={text} onIonChange={e => setText(e.detail.value!)}></IonTextarea>
+          </IonItem>
 
-    {/*-- Textarea in an item with a floating label --*/}
-    <IonItem>
-      <IonLabel position="floating">Description</IonLabel>
-      <IonTextarea></IonTextarea>
-    </IonItem>
+          <IonItemDivider>Textarea in an item with a floating label</IonItemDivider>
+          <IonItem>
+            <IonLabel position="floating">Description</IonLabel>
+            <IonTextarea value={text} onIonChange={e => setText(e.detail.value!)}></IonTextarea>
+          </IonItem>
 
-    {/*-- Disabled and readonly textarea in an item with a stacked label --*/}
-    <IonItem>
-      <IonLabel position="stacked">Summary</IonLabel>
-      <IonTextarea
-        disabled
-        readonly
-        value="Ionic enables developers to build performant, high-quality mobile apps.">
-      </IonTextarea>
-    </IonItem>
+          <IonItemDivider>Disabled and readonly textarea in an item with a stacked label</IonItemDivider>
+          <IonItem>
+            <IonLabel position="stacked">Summary</IonLabel>
+            <IonTextarea
+              disabled
+              readonly
+              value={text} onIonChange={e => setText(e.detail.value!)}>
+            </IonTextarea>
+          </IonItem>
 
-    {/*-- Textarea that clears the value on edit --*/}
-    <IonItem>
-      <IonLabel>Comment</IonLabel>
-      <IonTextarea clearOnEdit={true}></IonTextarea>
-    </IonItem>
+          <IonItemDivider>Textarea that clears the value on edit</IonItemDivider>
+          <IonItem>
+            <IonLabel>Comment</IonLabel>
+            <IonTextarea clearOnEdit={true} value={text} onIonChange={e => setText(e.detail.value!)}></IonTextarea>
+          </IonItem>
 
-    {/*-- Textarea with custom number of rows and cols --*/}
-    <IonItem>
-      <IonLabel>Notes</IonLabel>
-      <IonTextarea rows={6} cols={20} placeholder="Enter any notes here..."></IonTextarea>
-    </IonItem>
-  </>
-);
-
-export default Example;
+          <IonItemDivider>Textarea with custom number of rows and cols</IonItemDivider>
+          <IonItem>
+            <IonLabel>Notes</IonLabel>
+            <IonTextarea rows={6} cols={20} placeholder="Enter any notes here..." value={text} onIonChange={e => setText(e.detail.value!)}></IonTextarea>
+          </IonItem>
+        </IonList>
+      </IonContent>
+    </IonPage>
+  );
+};
 ```
 
 
@@ -177,7 +189,7 @@ export default Example;
   <!-- Textarea that clears the value on edit -->
   <ion-item>
     <ion-label>Comment</ion-label>
-    <ion-textarea clearOnEdit="true"></ion-textarea>
+    <ion-textarea clear-on-edit="true"></ion-textarea>
   </ion-item>
 
   <!-- Textarea with custom number of rows and cols -->
@@ -194,6 +206,7 @@ export default Example;
 
 | Property         | Attribute        | Description                                                                                                                                                                                                                                                            | Type                                     | Default        |
 | ---------------- | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | -------------- |
+| `autoGrow`       | `auto-grow`      | If `true`, the element height will increase based on the value.                                                                                                                                                                                                        | `boolean`                                | `false`        |
 | `autocapitalize` | `autocapitalize` | Indicates whether and how the text value should be automatically capitalized as it is entered/edited by the user.                                                                                                                                                      | `string`                                 | `'none'`       |
 | `autofocus`      | `autofocus`      | This Boolean attribute lets you specify that a form control should have input focus when the page loads.                                                                                                                                                               | `boolean`                                | `false`        |
 | `clearOnEdit`    | `clear-on-edit`  | If `true`, the value will be cleared after focus upon edit. Defaults to `true` when `type` is `"password"`, `false` for all other types.                                                                                                                               | `boolean`                                | `false`        |
@@ -221,7 +234,7 @@ export default Example;
 | `ionBlur`   | Emitted when the input loses focus.       | `CustomEvent<void>`                      |
 | `ionChange` | Emitted when the input value has changed. | `CustomEvent<TextareaChangeEventDetail>` |
 | `ionFocus`  | Emitted when the input has focus.         | `CustomEvent<void>`                      |
-| `ionInput`  | Emitted when a keyboard input ocurred.    | `CustomEvent<KeyboardEvent>`             |
+| `ionInput`  | Emitted when a keyboard input occurred.   | `CustomEvent<KeyboardEvent>`             |
 
 
 ## Methods
@@ -236,33 +249,33 @@ Type: `Promise<HTMLTextAreaElement>`
 
 
 
-### `setFocus() => void`
+### `setFocus() => Promise<void>`
 
 Sets focus on the specified `ion-textarea`. Use this method instead of the global
 `input.focus()`.
 
 #### Returns
 
-Type: `void`
+Type: `Promise<void>`
 
 
 
 
 ## CSS Custom Properties
 
-| Name                        | Description                     |
-| --------------------------- | ------------------------------- |
-| `--background`              | Background of the textarea      |
-| `--border-radius`           | Border radius of the textarea   |
-| `--color`                   | Color of the text               |
-| `--padding-bottom`          | Bottom padding of the textarea  |
-| `--padding-end`             | End padding of the textarea     |
-| `--padding-start`           | Start padding of the textarea   |
-| `--padding-top`             | Top padding of the textarea     |
-| `--placeholder-color`       | Color of the placeholder text   |
-| `--placeholder-font-style`  | Style of the placeholder text   |
-| `--placeholder-font-weight` | Weight of the placeholder text  |
-| `--placeholder-opacity`     | Opacity of the placeholder text |
+| Name                        | Description                                                                                                 |
+| --------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `--background`              | Background of the textarea                                                                                  |
+| `--border-radius`           | Border radius of the textarea                                                                               |
+| `--color`                   | Color of the text                                                                                           |
+| `--padding-bottom`          | Bottom padding of the textarea                                                                              |
+| `--padding-end`             | Right padding if direction is left-to-right, and left padding if direction is right-to-left of the textarea |
+| `--padding-start`           | Left padding if direction is left-to-right, and right padding if direction is right-to-left of the textarea |
+| `--padding-top`             | Top padding of the textarea                                                                                 |
+| `--placeholder-color`       | Color of the placeholder text                                                                               |
+| `--placeholder-font-style`  | Style of the placeholder text                                                                               |
+| `--placeholder-font-weight` | Weight of the placeholder text                                                                              |
+| `--placeholder-opacity`     | Opacity of the placeholder text                                                                             |
 
 
 ----------------------------------------------
